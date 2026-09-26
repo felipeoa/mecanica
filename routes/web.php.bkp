@@ -1,0 +1,39 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+// Rota de Login nativa ou redirecionamento
+Route::get('/', function () { return redirect()->route('login'); });
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::livewire('dashboard', 'pages::dashboard')->name('dashboard');
+    //Route::livewire('dashboard', 'pages::dashboard')->name('dashboard');
+});
+
+Route::middleware(['auth'])->group(function () 
+{    
+    Route::livewire('clientes', 'pages::clientes')->name('clientes');
+    Route::livewire('fornecedores', 'pages::fornecedores')->name('fornecedores');
+    Route::livewire('estoques', 'pages::estoques')->name('estoques');
+
+
+    
+    Route::livewire('ordens-servico', 'pages::ordens-servico')->name('ordens-servico');
+    Route::livewire('ordens-servico/criar', 'pages::ordens-servico.create')->name('ordens-servico.create');
+
+
+    // Todos os perfis acessam o Dashboard e a listagem de OS
+    //Route::livewire('/admin/dashboard', 'pages::admin.dashboard');
+
+    /*Route::get('/ordens-servico', GestaoOs::class)->name('os.index');
+
+    // Restrição para Administrador e Atendente
+    Route::middleware(['can:access-gerencial'])->group(function () {
+        Route::get('/clientes', ListagemClientes::class)->name('clientes.index');
+        Route::get('/estoque', GestaoEstoque::class)->name('estoque.index');
+        Route::get('/fornecedores', ListagemFornecedores::class)->name('fornecedores.index');
+        Route::get('/orcamentos/novo', CriarOrcamento::class)->name('orcamento.novo');
+    }); */
+});
+
+require __DIR__.'/settings.php';
